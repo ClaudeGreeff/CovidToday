@@ -22,4 +22,6 @@ class CountryStatsViewModel internal constructor(
             }
         }
     }
+
+    
 }
