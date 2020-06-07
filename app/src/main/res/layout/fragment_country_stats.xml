@@ -2,7 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.app.covid.viewmodel.CountryStatsViewModel" />
@@ -25,14 +25,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@{viewModel.countryLiveData}"
-                app:menu="@menu/top_app_bar"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 />
 
         </com.google.android.material.appbar.AppBarLayout>
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_below="@+id/topAppBar"
+                android:layout_margin="8dp"
+                android:id="@+id/etCountryCode"
+                android:hint="Enter country code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:layout_below="@+id/topAppBar"
+            android:layout_below="@+id/etCountryCode"
             android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -47,6 +56,7 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.airbnb.lottie.LottieAnimationView
+            android:visibility="@{viewModel.showLoader? View.VISIBLE : View.GONE}"
             android:id="@+id/loader"
             android:layout_centerInParent="true"
             android:layout_width="80dp"
@@ -54,6 +64,16 @@
             app:lottie_autoPlay="true"
             app:lottie_fileName="loader.json"
             app:lottie_loop="true"/>
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/fab"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            app:srcCompat="@drawable/plus"-->
+<!--            android:layout_height="wrap_content"/>-->
 
     </RelativeLayout>
 </layout>

@@ -17,11 +17,17 @@ class CountryStatsViewModel internal constructor(
     var countryStatsLiveData: MediatorLiveData<CountryStats> = MediatorLiveData()
     var countryLiveData: MediatorLiveData<String> = MediatorLiveData()
     var statsLiveData: MediatorLiveData<List<Stat>> = MediatorLiveData()
+    var showLoader: MediatorLiveData<Boolean> = MediatorLiveData()
     var countryCode = "ZA"
 
     init {
         addCountryStatsSource(countryCode)
+        addLoader()
         addStatsSource()
+    }
+
+    private fun addLoader() {
+        showLoader.postValue(true)
     }
 
     fun addCountryStatsSource(countryCode: String) {
@@ -37,35 +43,44 @@ class CountryStatsViewModel internal constructor(
         statsLiveData.addSource(countryStatsLiveData){
             val statsList = mutableListOf<Stat>()
 
-            if(!it.totalConfirmed.isNullOrBlank()){
+            if(!it?.totalConfirmed.isNullOrBlank()){
                 val stat = Stat(StatType.CONFIRMED, it.totalConfirmed)
                 statsList.add(stat)
             }
-            if(!it.totalDeaths.isNullOrBlank()){
+            if(!it?.totalDeaths.isNullOrBlank()){
                 val stat = Stat(StatType.DEATHS, it.totalDeaths)
                 statsList.add(stat)
             }
-            if(!it.totalRecovered.isNullOrBlank()){
+            if(!it?.totalRecovered.isNullOrBlank()){
                 val stat = Stat(StatType.RECOVERED, it.totalRecovered)
                 statsList.add(stat)
             }
-            if(!it.totalCritical.isNullOrBlank()){
+            if(!it?.totalCritical.isNullOrBlank()){
                 val stat = Stat(StatType.CRITICAL, it.totalCritical)
                 statsList.add(stat)
             }
-            if(!it.country.isNullOrBlank()){
+            if(!it?.country.isNullOrBlank()){
                 countryLiveData.postValue(it.country)
             }
-            if(!it.dailyConfirmed.isNullOrBlank()){
+            if(!it?.dailyConfirmed.isNullOrBlank()){
                 val stat = Stat(StatType.DAILY_CONFIRMED, it.dailyConfirmed)
                 statsList.add(stat)
             }
-            if(!it.dailyDeaths.isNullOrBlank()){
+            if(!it?.dailyDeaths.isNullOrBlank()){
                 val stat = Stat(StatType.DAILY_DEATHS, it.dailyDeaths)
+                statsList.add(stat)
+            }
+            if(!it?.totalDeathsPerMillionPopulation.isNullOrBlank()){
+                val stat = Stat(StatType.DEATHS_PER_MILLION, it.totalDeathsPerMillionPopulation)
+                statsList.add(stat)
+            }
+            if(!it?.totalConfirmedPerMillionPopulation.isNullOrBlank()){
+                val stat = Stat(StatType.CONFIRMED_PER_MILLION, it.totalConfirmedPerMillionPopulation)
                 statsList.add(stat)
             }
 
             statsLiveData.postValue(statsList)
+            showLoader.postValue(false)
         }
     }
 
