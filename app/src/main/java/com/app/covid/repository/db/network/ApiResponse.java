@@ -27,6 +27,7 @@ import timber.log.Timber;
 
 /**
  * Common class used by API responses.
+ *
  * @param <T>
  */
 public class ApiResponse<T> {
@@ -58,13 +59,13 @@ public class ApiResponse<T> {
     public ApiResponse(Response<T> response) {
         code = response.code();
         Timber.i(response.toString());
-        if(response.isSuccessful()) {
+        if (response.isSuccessful()) {
             body = response.body();
             errorMessage = null;
             errorBody = null;
-            if(body instanceof Collection){
+            if (body instanceof Collection) {
                 dataLimited = ((Collection) body).getDataLimited();
-            }else{
+            } else {
                 dataLimited = false;
             }
         } else {
@@ -91,13 +92,13 @@ public class ApiResponse<T> {
     }
 
     private String handleError() {
-        if (code  < 0) {
+        if (code < 0) {
             //Special error don't present - example: request cancelled (-999)
             return "";
         } else if (code >= 500) {
             return GENERIC_ERROR_500;
         } else if (code >= 400) {
-            return GENERIC_ERROR_400 ;
+            return GENERIC_ERROR_400;
         } else {
             return GENERIC_ERROR_OTHER;
         }

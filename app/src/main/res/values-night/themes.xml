@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariantNight</item>
+        <item name="colorSecondary">@color/colorSecondaryNight</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariantNight</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryNight</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryNight</item>
+        <item name="android:statusBarColor">@color/colorPrimaryVariantNight</item>
+    </style>
+
+</resources>

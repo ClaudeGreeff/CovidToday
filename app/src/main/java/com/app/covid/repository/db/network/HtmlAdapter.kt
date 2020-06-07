@@ -10,8 +10,10 @@ import java.lang.reflect.Type
 class HtmlAdapter : JsonDeserializer<String> {
 
     @Throws(JsonParseException::class)
-    override fun deserialize(json: JsonElement, typeOfT: Type,
-                             context: JsonDeserializationContext): String? {
+    override fun deserialize(
+        json: JsonElement, typeOfT: Type,
+        context: JsonDeserializationContext
+    ): String? {
         return StringEscapeUtils.unescapeHtml4(json.asString)
     }
 }

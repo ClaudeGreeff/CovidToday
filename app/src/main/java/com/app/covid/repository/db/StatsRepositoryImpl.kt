@@ -8,16 +8,17 @@ import com.app.covid.repository.db.network.StatsService
 import com.app.covid.repository.db.resource.GetCountryStats
 import com.app.covid.repository.db.resource.Resource
 
-class StatsRepositoryImpl(val context: Context,
-                          private val appExecutors: AppExecutors,
-                          private val service: StatsService,
-                          private val db: MainDataBase
+class StatsRepositoryImpl(
+    val context: Context,
+    private val appExecutors: AppExecutors,
+    private val service: StatsService,
+    private val db: MainDataBase
 ) : StatsRepository {
 
     //CountryStats
     private var getCountryStats: GetCountryStats? = null
 
-    override fun getCountryStats(countryCode: String): LiveData<Resource<List<CountryStats?>>>{
+    override fun getCountryStats(countryCode: String): LiveData<Resource<List<CountryStats?>>> {
         getCountryStats = GetCountryStats(
             appExecutors,
             countryCode,

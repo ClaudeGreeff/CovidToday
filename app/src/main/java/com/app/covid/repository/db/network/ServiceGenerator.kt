@@ -9,35 +9,32 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
-class ServiceGenerator(baseUrl: String,
-                       appVersion: String,
-                       appBuildNumber: Int,
-                       appID: String) {
+class ServiceGenerator(baseUrl: String) {
 
 
     private val loggingInterceptor = HttpLoggingInterceptor(
-            object : HttpLoggingInterceptor.Logger {
-                override fun log(message: String) {
-                    Timber.v(message)
-                }
-            })
+        object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Timber.v(message)
+            }
+        })
 
 
     val client: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .callTimeout(40, TimeUnit.SECONDS)
-            .build()
+        .addInterceptor(loggingInterceptor)
+        .callTimeout(40, TimeUnit.SECONDS)
+        .build()
 
     var gson = GsonBuilder()
-            .registerTypeAdapter(String::class.java, HtmlAdapter())
-            .create()
+        .registerTypeAdapter(String::class.java, HtmlAdapter())
+        .create()
 
     private val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(LiveDataCallAdapterFactory())
-            .client(client)
-            .build()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(LiveDataCallAdapterFactory())
+        .client(client)
+        .build()
 
     init {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY

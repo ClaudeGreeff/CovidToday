@@ -23,7 +23,7 @@ object CachePreference {
 //        return  getSharedPreferences(context).getBoolean("chat_mute_$chatId",false)
 //    }
 
-    fun setMyChannelsLastRefreshed(context: Context, channelId: Long, date: Date){
+    fun setMyChannelsLastRefreshed(context: Context, channelId: Long, date: Date) {
         val pref = getSharedPreferences(context)
         val editor = pref.edit()
         editor.putLong("my_channel_last_refreshed", date.time)
@@ -31,45 +31,45 @@ object CachePreference {
     }
 
     fun getMyChannelsLastRefreshed(context: Context): Date {
-        val time =  getSharedPreferences(context).getLong("my_channel_last_refreshed",0L)
+        val time = getSharedPreferences(context).getLong("my_channel_last_refreshed", 0L)
         return Date(time)
     }
 
-    fun resetLastWorkspaceUserUpdated(context: Context){
+    fun resetLastWorkspaceUserUpdated(context: Context) {
         val pref = getSharedPreferences(context)
         val editor = pref.edit()
         pref.all.keys.forEach {
-            if (it.contains("last_user_updated_at_")){
+            if (it.contains("last_user_updated_at_")) {
                 editor.putLong(it, 0L)
             }
         }
         editor.apply()
     }
 
-    fun setLastUserUpdateAt(context: Context, workspaceUuid: String?, date: Date?){
+    fun setLastUserUpdateAt(context: Context, workspaceUuid: String?, date: Date?) {
         val pref = getSharedPreferences(context)
         val editor = pref.edit()
-        editor.putLong("last_user_updated_at_$workspaceUuid", date?.time?:0L)
+        editor.putLong("last_user_updated_at_$workspaceUuid", date?.time ?: 0L)
         editor.apply()
     }
 
     fun getLastUserUpdateAt(context: Context, workspaceUuid: String?): Date? {
-        val time =  getSharedPreferences(context).getLong("last_user_updated_at_$workspaceUuid",0L)
-        return if (time == 0L){
+        val time = getSharedPreferences(context).getLong("last_user_updated_at_$workspaceUuid", 0L)
+        return if (time == 0L) {
             null
         } else {
             Date(time)
         }
     }
 
-    fun setLastChannelDbVersion(context: Context, version: Int?){
+    fun setLastChannelDbVersion(context: Context, version: Int?) {
         val pref = getSharedPreferences(context)
         val editor = pref.edit()
-        editor.putInt("last_channel_db_version", version?:-1)
+        editor.putInt("last_channel_db_version", version ?: -1)
         editor.apply()
     }
 
     fun getLastChannelDbVersion(context: Context): Int? {
-        return getSharedPreferences(context).getInt("last_channel_db_version",-1)
+        return getSharedPreferences(context).getInt("last_channel_db_version", -1)
     }
 }

@@ -32,10 +32,12 @@ import timber.log.Timber;
 
 /**
  * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
+ *
  * @param <R>
  */
 public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
     private final Type responseType;
+
     public LiveDataCallAdapter(Type responseType) {
         this.responseType = responseType;
     }
@@ -49,6 +51,7 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiRespon
     public LiveData<ApiResponse<R>> adapt(@NonNull Call<R> call) {
         return new LiveData<ApiResponse<R>>() {
             AtomicBoolean started = new AtomicBoolean(false);
+
             @Override
             protected void onActive() {
                 super.onActive();
@@ -61,9 +64,9 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiRespon
 
                         @Override
                         public void onFailure(@NonNull Call<R> call, @NonNull Throwable throwable) {
-                            if(throwable instanceof IOException){
+                            if (throwable instanceof IOException) {
                                 postValue(new ApiResponse<>("Network error. Please try again later"));
-                            }else{
+                            } else {
                                 postValue(new ApiResponse<>(throwable));
                             }
                             Timber.e("LiveDataCallAdapter onFailure conversion issue, %s", throwable.getMessage());

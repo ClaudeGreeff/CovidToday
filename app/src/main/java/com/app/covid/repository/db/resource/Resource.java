@@ -8,8 +8,9 @@ import com.app.covid.repository.db.constant.Status;
 import com.app.covid.repository.db.model.ErrorBody;
 
 /**
-        * A generic class that holds a value with its loading status.
-        * @param <T>
+ * A generic class that holds a value with its loading status.
+ *
+ * @param <T>
  */
 public class Resource<T> {
 

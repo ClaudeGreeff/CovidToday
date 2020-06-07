@@ -1,14 +1,9 @@
 package com.app.covid
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.app.covid.fragment.CountryStatsFragment
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
-import org.koin.core.logger.Logger
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,10 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     fun updateFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.slide_in_right,
+            .setCustomAnimations(
+                R.anim.slide_in_right,
                 R.anim.slide_out_left,
                 R.anim.slide_in_left,
-                R.anim.slide_out_right)
+                R.anim.slide_out_right
+            )
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commitAllowingStateLoss()

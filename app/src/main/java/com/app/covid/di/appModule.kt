@@ -3,13 +3,13 @@ package com.app.covid.di
 import androidx.room.Room
 import com.app.covid.BuildConfig
 import com.app.covid.core.AppExecutors
-import com.example.fastestresponse.constants.DbFile
+import com.app.covid.repository.db.MainDataBase
 import com.app.covid.repository.db.StatsRepository
 import com.app.covid.repository.db.StatsRepositoryImpl
-import com.app.covid.repository.db.MainDataBase
 import com.app.covid.repository.db.network.ServiceGenerator
 import com.app.covid.repository.db.network.StatsService
 import com.app.covid.viewmodel.CountryStatsViewModel
+import com.example.fastestresponse.constants.DbFile
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -23,10 +23,7 @@ val appModule = module {
     // Network Services for Latch - Auth required
     single {
         ServiceGenerator(
-            "https://api.coronatracker.com/",
-            BuildConfig.VERSION_NAME,
-            BuildConfig.VERSION_CODE,
-            BuildConfig.APPLICATION_ID
+            "https://api.coronatracker.com/"
         )
     }
 

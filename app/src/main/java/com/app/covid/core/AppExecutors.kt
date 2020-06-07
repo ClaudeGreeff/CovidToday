@@ -5,9 +5,9 @@ import android.os.Looper
 import java.util.concurrent.*
 
 open class AppExecutors(
-        private val diskIO: Executor,
-        private val networkIO: Executor,
-        private val mainThread: Executor
+    private val diskIO: Executor,
+    private val networkIO: Executor,
+    private val mainThread: Executor
 ) {
 
     companion object {
@@ -16,13 +16,17 @@ open class AppExecutors(
         private var KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS
 
         fun createInstance(): AppExecutors {
-            return AppExecutors(ThreadPoolExecutor(NUMBER_OF_CORES,
+            return AppExecutors(
+                ThreadPoolExecutor(
+                    NUMBER_OF_CORES,
                     NUMBER_OF_CORES * 2 + 1,
                     KEEP_ALIVE_TIME,
                     KEEP_ALIVE_TIME_UNIT,
-                    LinkedBlockingQueue<Runnable>()),
-                    Executors.newFixedThreadPool(4),
-                    MainThreadExecutor())
+                    LinkedBlockingQueue<Runnable>()
+                ),
+                Executors.newFixedThreadPool(4),
+                MainThreadExecutor()
+            )
         }
     }
 

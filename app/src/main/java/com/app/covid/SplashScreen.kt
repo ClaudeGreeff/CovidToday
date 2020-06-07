@@ -8,7 +8,7 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import timber.log.Timber
 
-class SplashScreen: AppCompatActivity(){
+class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,8 +17,8 @@ class SplashScreen: AppCompatActivity(){
 
         if (!isTaskRoot
             && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
-                && intent.action != null
-                    && intent.action == Intent.ACTION_MAIN
+            && intent.action != null
+            && intent.action == Intent.ACTION_MAIN
         ) {
             finish()
             return

@@ -18,6 +18,7 @@ import java.util.Objects;
  * <p>
  * You can read more about it in the <a href="https://developer.android.com/arch">Architecture
  * Guide</a>.
+ *
  * @param <ResultType>
  * @param <RequestType>
  */
@@ -32,7 +33,7 @@ public abstract class NetworkBoundResource<@org.jetbrains.annotations.Nullable R
         refresh();
     }
 
-    public void refresh(){
+    public void refresh() {
         setValue(Resource.loading(null));
         LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, data -> {
