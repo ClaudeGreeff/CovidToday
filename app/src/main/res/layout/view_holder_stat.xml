@@ -6,7 +6,8 @@
         android:id="@+id/cardTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:cardElevation="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeWidth="1dp">
@@ -22,6 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Confirmed"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <TextView

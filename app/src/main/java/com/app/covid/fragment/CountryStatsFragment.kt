@@ -1,9 +1,7 @@
 package com.app.covid.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,7 +18,7 @@ import timber.log.Timber
 class CountryStatsFragment : Fragment() {
     private lateinit var binding: FragmentCountryStatsBinding
     private val viewModel: CountryStatsViewModel by sharedViewModel()
-    private val adapter: StatAdapter? = null
+    private var adapter: StatAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,35 +34,54 @@ class CountryStatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        setupRecyclerView();
+        setupRecyclerView()
+        setupSwipeToRefresh()
         observeUsers()
+        initializeSearch()
+    }
+
+    private fun initializeSearch() {
+        binding.toolBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search -> {
+                    val searchView = menuItem.actionView as androidx.appcompat.widget.SearchView
+                    searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(query: String): Boolean {
+                            viewModel.addCountryStatsSource(query)
+                            searchView.clearFocus()
+                            return false
+                        }
+
+                        override fun onQueryTextChange(query: String): Boolean {
+                            return false
+                        }
+                    })
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun setupSwipeToRefresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerView.setHasFixedSize(true)
+        adapter = StatAdapter(requireActivity())
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.adapter = adapter
     }
 
     private fun observeUsers() {
-        viewModel.countryStatsLiveData.observe(viewLifecycleOwner, Observer {
-            val statsList = mutableListOf<Stat>()
-
-            if(!it.totalConfirmed.isNullOrBlank()){
-                val stat = Stat(StatType.CONFIRMED, it.totalConfirmed)
-                statsList.add(stat)
-            }
-            if(!it.totalDeaths.isNullOrBlank()){
-                val stat = Stat(StatType.DEATHS, it.totalDeaths)
-                statsList.add(stat)
-            }
-            if(!it.totalRecovered.isNullOrBlank()){
-                val stat = Stat(StatType.RECOVERED, it.totalRecovered)
-                statsList.add(stat)
-            }
-
-            adapter?.setStatViews(statsList)
+        binding.loader.visibility = View.VISIBLE
+        viewModel.statsLiveData.observe(viewLifecycleOwner, Observer {
+            adapter?.setStatViews(it)
+            binding.loader.visibility = View.GONE
+            binding.swipeRefresh.isRefreshing = false
         })
     }
 

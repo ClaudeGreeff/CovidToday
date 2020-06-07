@@ -47,7 +47,7 @@ class StatAdapter(private val context: Context) :
             newStatViews == null -> return
             statViews.isEmpty() -> {
                 statViews.addAll(newStatViews)
-                notifyItemRangeInserted(0, newStatViews.size)
+                notifyDataSetChanged()
             }
             else -> {
                 val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
