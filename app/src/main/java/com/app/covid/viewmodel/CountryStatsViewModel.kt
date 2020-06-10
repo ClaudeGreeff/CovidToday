@@ -14,7 +14,7 @@ class CountryStatsViewModel internal constructor(
     private val userRepo: StatsRepository
 ) : AndroidViewModel(application) {
 
-    var countryStatsLiveData: MediatorLiveData<CountryStats> = MediatorLiveData()
+    private var countryStatsLiveData: MediatorLiveData<CountryStats> = MediatorLiveData()
     var countryLiveData: MediatorLiveData<String> = MediatorLiveData()
     var statsLiveData: MediatorLiveData<List<Stat>> = MediatorLiveData()
     var showLoader: MediatorLiveData<Boolean> = MediatorLiveData()

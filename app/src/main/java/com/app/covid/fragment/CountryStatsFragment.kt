@@ -1,13 +1,11 @@
 package com.app.covid.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,37 +37,39 @@ class CountryStatsFragment : Fragment() {
         binding.viewModel = viewModel
         setupRecyclerView()
         setupSwipeToRefresh()
+        initializeSearch()
         observeUsers()
-        initializeEditText()
     }
 
-    private fun initializeEditText() {
-        binding.etCountryCode.addTextChangedListener(object : TextWatcher {
+    private fun initializeSearch() {
+        val searchView = binding.toolBar.menu.findItem(R.id.search).actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             var handler = Handler()
-            override fun afterTextChanged(s: Editable?) {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            @SuppressLint("DefaultLocale")
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onQueryTextChange(query: String): Boolean {
                 handler.removeCallbacksAndMessages(null)
-                if (s?.length == 0) {
+                if (query.isEmpty()) {
+                    binding.loader.visibility = View.VISIBLE
                     viewModel.addCountryStatsSource("ZA")
                 } else {
                     handler.postDelayed({
-                        viewModel.addCountryStatsSource(s.toString().capitalize())
-                    }, 2000)
+                        binding.loader.visibility = View.VISIBLE
+                        viewModel.addCountryStatsSource(query.capitalize())
+                    }, 1000)
                 }
+                return false
             }
-
         })
     }
 
     private fun setupSwipeToRefresh() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.refresh()
+            binding.loader.visibility = View.VISIBLE
+            binding.swipeRefresh.isRefreshing = false
         }
     }
 
@@ -83,7 +83,7 @@ class CountryStatsFragment : Fragment() {
     private fun observeUsers() {
         viewModel.statsLiveData.observe(viewLifecycleOwner, Observer {
             adapter?.setStatViews(it)
-            binding.swipeRefresh.isRefreshing = false
+            binding.loader.visibility = View.GONE
         })
     }
 

@@ -2,7 +2,6 @@ package com.app.covid.repository.db.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.*
 
 object CachePreference {
     private const val SHARED_PREFERENCE_NAME = "cache_preference"

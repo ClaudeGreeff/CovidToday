@@ -1,6 +1,5 @@
 package com.app.covid.viewholder
 
-import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.covid.R
@@ -24,7 +23,7 @@ class StatViewHolder(binding: ViewHolderStatBinding) :
 
     fun onBindViewHolder(stat: Stat) {
         var title = ""
-        when(stat.reference){
+        when (stat.reference) {
             StatType.CONFIRMED -> {
                 title = "Confirmed Cases"
             }
@@ -51,10 +50,11 @@ class StatViewHolder(binding: ViewHolderStatBinding) :
             }
         }
         tvTitle.text = title
-        if(stat.count?.toFloat()!! > 1000000){
+        if (stat.count?.toFloat()!! > 1000000) {
             tvCount.text = String.format("%.2fM", stat.count?.toFloat()?.div(1000000.0));
-        }else{
-            tvCount.text = NumberFormat.getNumberInstance(Locale.getDefault() ).format(stat.count?.toFloat())
+        } else {
+            tvCount.text =
+                NumberFormat.getNumberInstance(Locale.getDefault()).format(stat.count?.toFloat())
         }
     }
 }
